@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FactureKey {
 	public String consommateur;
-	public String id;
+	public int id;
 }

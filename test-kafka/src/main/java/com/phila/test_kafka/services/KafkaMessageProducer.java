@@ -18,10 +18,10 @@ public class KafkaMessageProducer {
 	
 	@Autowired
 	private KafkaTemplate<FactureKey, Facture> kafkaTemplate;
-		public void sendMessage(Facture facture, String consommateur) {
+		public void sendMessage(Facture facture, String consommateur, int idConso) {
 		System.out.println("Envoi de la facture : " + facture.toString() + " pour le consommateur : " + consommateur);
 		
-		FactureKey key = new FactureKey(consommateur, UUID.randomUUID().toString());
+		FactureKey key = new FactureKey(consommateur, idConso);
 		
 		kafkaTemplate.send(topic, key, facture)
 		.whenComplete((result, ex) -> {

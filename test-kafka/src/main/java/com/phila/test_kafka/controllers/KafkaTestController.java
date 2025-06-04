@@ -21,7 +21,12 @@ public class KafkaTestController {
 	
 	@GetMapping("/produce")
 	public void produce (@RequestParam String numFacture, @RequestParam String nomFacture, @RequestParam String consommateur) {
-		for(int i = 0; i < 10000; i++)
-			kafkaMessageProducer.sendMessage(new Facture(numFacture, nomFacture + " " + i), consommateur);
+		for(int i = 0; i < 10000; i++) {
+			if(i % 2 == 0) {
+				kafkaMessageProducer.sendMessage(new Facture(numFacture, nomFacture + " " + i), "PHILA_PAIR", i);				
+			} else {
+				kafkaMessageProducer.sendMessage(new Facture(numFacture, nomFacture + " " + i), "PHILA_IMPAIR", i);
+			}
+		}
 	}
 }

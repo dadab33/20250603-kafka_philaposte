@@ -13,8 +13,8 @@ import com.phila.test_kafka.beans.FactureKey;
 public class KafkaMessageConsumer {	
 	@KafkaListener(topics= "#{'${spring.kafka.topics}'}", groupId="phila-consumer-group", containerFactory = "kafkaListenerContainerFactory") 
 	public void listen (ConsumerRecord<FactureKey, Facture> record, Acknowledgment acknowledgment) {
-		System.out.println("Message reçu : Key => " + record.key().toString() + " / Value => " + record.value().toString());
+		//System.out.println("Message reçu : Key => " + record.key().toString() + " / Value => " + record.value().toString());
 		acknowledgment.acknowledge();
-		System.out.println("Message commité pour le groupId phila-consumer-group");
+		//System.out.println("Message commité pour le groupId phila-consumer-group");
 	}
 }

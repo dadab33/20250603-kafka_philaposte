@@ -37,13 +37,13 @@ public class ConsommateurPartitioner implements Partitioner {
             // Si la clé est déjà un objet FactureKey
             if (key instanceof FactureKey) {
                 FactureKey factureKey = (FactureKey) key;
-                return getPartitionForConsommateur(factureKey.getConsommateur(), numPartitions);
+                return getPartitionForConsommateur(factureKey.getId(), numPartitions);
             }
             
             // Si la clé est sérialisée en JSON, la désérialiser
             if (keyBytes != null) {
                 FactureKey factureKey = objectMapper.readValue(keyBytes, FactureKey.class);
-                return getPartitionForConsommateur(factureKey.getConsommateur(), numPartitions);
+                return getPartitionForConsommateur(factureKey.getId(), numPartitions);
             }
             
         } catch (Exception e) {
@@ -60,13 +60,9 @@ public class ConsommateurPartitioner implements Partitioner {
      * Utilise un hash consistant pour garantir que le même consommateur
      * va toujours vers la même partition.
      */
-    private int getPartitionForConsommateur(String consommateur, int numPartitions) {
-        if (consommateur == null || consommateur.trim().isEmpty()) {
-            return 0; // Partition par défaut si consommateur vide
-        }
-        
+    private int getPartitionForConsommateur(int idConso, int numPartitions) {        
         // Utiliser un hash consistant pour garantir la même partition pour le même consommateur
-        return Utils.toPositive(Utils.murmur2(consommateur.getBytes())) % numPartitions;
+        return idConso % numPartitions;
     }
 
     @Override
