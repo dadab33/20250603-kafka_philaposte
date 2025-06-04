@@ -18,19 +18,21 @@ public class KafkaMessageProducer {
 	
 	@Autowired
 	private KafkaTemplate<FactureKey, Facture> kafkaTemplate;
-	
-	public void sendMessage(Facture facture, String consommateur) {
-		System.out.println("Envoi de la facture : " + facture.toString());
+		public void sendMessage(Facture facture, String consommateur) {
+		System.out.println("Envoi de la facture : " + facture.toString() + " pour le consommateur : " + consommateur);
 		
-		kafkaTemplate.send(topic, new FactureKey(consommateur, UUID.randomUUID().toString()) , facture)
+		FactureKey key = new FactureKey(consommateur, UUID.randomUUID().toString());
+		
+		kafkaTemplate.send(topic, key, facture)
 		.whenComplete((result, ex) -> {
 			if(ex == null) {
-				System.out.printf("Succès ! Topic : %s, Partition: %d, Offset: %d%n", 
+				System.out.printf("Succès ! Consommateur: %s, Topic: %s, Partition: %d, Offset: %d%n", 
+						consommateur,
 						result.getRecordMetadata().topic(), 
 						result.getRecordMetadata().partition(), 
 						result.getRecordMetadata().offset());
 			} else {
-				System.err.println("Erreur durant l'envoi");
+				System.err.println("Erreur durant l'envoi pour le consommateur " + consommateur + " : " + ex.getMessage());
 			}
 		});
 	}

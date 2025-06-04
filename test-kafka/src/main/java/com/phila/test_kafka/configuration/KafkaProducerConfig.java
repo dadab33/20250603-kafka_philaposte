@@ -24,14 +24,16 @@ public class KafkaProducerConfig {
 
 	@Value("${spring.kafka.bootstrap-servers}")
 	private String bootstrapServer;
-	
-	@Bean
+		@Bean
 	public ProducerFactory<FactureKey, Facture> producerFactory(MeterRegistry meterRegistry) {
 		Map<String, Object> props = new HashMap<>();
 		
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
+		
+		// Configuration du partitionneur personnalisé
+		props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, ConsommateurPartitioner.class);
 		
 		var pf = new DefaultKafkaProducerFactory<FactureKey, Facture>(props);
 		pf.addListener(new MicrometerProducerListener<>(meterRegistry));
