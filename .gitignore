@@ -1,0 +1,25 @@
+formation/HELP.md
+formation/target/
+!formation/.mvn/wrapper/maven-wrapper.jar
+!formation/**/src/main/**/target/
+!formation/**/src/test/**/target/
+
+### STS ###
+formation/.apt_generated
+formation/.classpath
+formation/.factorypath
+formation/.project
+formation/.settings
+formation/.springBeans
+formation/.sts4-cache
+
+### IntelliJ IDEA ###
+formation/.idea
+formation/*.iws
+formation/*.iml
+formation/*.ipr
+
+### VS Code ###
+formation/.vscode/
+
+Formation Kafka Juin 2025 Philaposte.pptx
